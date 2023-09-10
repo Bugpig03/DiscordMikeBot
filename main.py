@@ -1,5 +1,5 @@
 #-------- MIKE BOT --------
-VERSION = "2.3.1"
+VERSION = "2.4.0"
 CREATOR = "bugpig"
 #--------------------------
 
@@ -12,6 +12,9 @@ from mod_init import *
 
 import mod_token as token
 from mod_token import *
+
+import mod_profiles as mod_profiles
+from mod_profiles import *
 
 #-------- BOT COMMANDS --------
 @bot.command()
@@ -143,14 +146,9 @@ async def remove(ctx, index: int):
         await ctx.send("Gros golmon.")
 
 @bot.command()
-async def score(ctx, user: discord.Member = None):
-    if user is None:
-        user = ctx.author
-    if user.id not in scores:
-        await ctx.send(f'{user.mention} n\'a pas de score pour le moment.')
-    else:
-        await ctx.send(f'{user.mention} a un score de {scores[user.id]}.')
-
+async def profile(ctx, user: discord.Member = None):
+    await display_profile(ctx, user.id)
+    
 #-------- BOT EVENTS --------
 @bot.event
 async def on_ready():
@@ -172,9 +170,10 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user: # check if message was sent by the bot
         return
-    function.add_score(message.author)
+    #function.add_score(message.author)
+    add_score(message.author.id)
 
-    global danmachi_trigger
+    #reponse directe 
     if 'quoi' in message.content:
         if random.randint(1,3) == 3:
             await message.channel.send('FEUR + RATIO !')
@@ -188,45 +187,27 @@ async def on_message(message):
 
     if 'CIAO' in message.content:
         if message.author.id == 301727996392505346: # id bugpig
-            await message.channel.send('BELLIIIISIIIIMAAAA Y BELLIIISIIIMOOO !!!! ')
-
-    if 'danmachi' in message.content:
-        if message.author.id == 398141917495558168: #398141917495558168 # id elu
-            print("danmachi triggered : ", danmachi_trigger)
-            if danmachi_trigger == 0:
-                await message.channel.send('oh non il parle de danmachi...')
-            if danmachi_trigger == 1:
-                await message.channel.send('par pitié elu arrête de parler de danmachi')
-            if danmachi_trigger == 2:
-                await message.channel.send('TG ELU AVEC TON DANMACHI DE MERDE OMG')
-            if danmachi_trigger == 3:
-                await message.channel.send('Bon t a gagné petit con je regarderai... un jour')
-            if danmachi_trigger == 4:
-                await message.channel.send('Oui mec !')
-            if danmachi_trigger == 5:
-                await message.channel.send('Ouiiii Aiz la plus forte !')
-            if danmachi_trigger == 6:
-                await message.channel.send('Trop hâte de lire les prochains chapitres la ^^')
-            if danmachi_trigger == 7:
-                await message.channel.send('oui...')
-            danmachi_trigger = danmachi_trigger + 1
-            
-        
+            await message.channel.send('BELLIIIISIIIIMAAAA Y BELLIIISIIIMOOO !!!! ')      
+      
+    #Les randoms        
     rnd_trigger = random.randint(1,200)
     if message.author.id != 430067459131834368: #id mike brant
         if rnd_trigger == 4:
+            add_ratio_r(message.author.id)
             await message.channel.send("[R] menfou mec raconte pas ta vie **(1/200)**")
             print("triggered 1/200")
 
     rnd_trigger = random.randint(1,1500)
     if message.author.id != 430067459131834368: #id mike brant
         if rnd_trigger == 500:
+            add_ratio_sr(message.author.id)
             await message.channel.send("**[SR] menfou de type ultra rare OMG **(1/1500)**")
             print("menfou triggered 1/1500")
 
     rnd_trigger = random.randint(1,10000)
     if message.author.id != 430067459131834368: #id mike brant
         if rnd_trigger == 1000:
+            add_ratio_lr(message.author.id)
             await message.channel.send("**[LR]** menfou de type LEGENDAIRE OMG GG BTW (1/10000)**")
             print("menfou triggered 1/10000")
 
