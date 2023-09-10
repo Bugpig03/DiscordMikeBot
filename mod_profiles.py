@@ -5,7 +5,7 @@ from mod_init import *
 # Fonction pour charger les profils depuis un fichier JSON
 def get_loaded_profiles():
     try:
-        with open(profilesFileName, 'r') as file:
+        with open(PROFILE_JSON_DIR, 'r') as file:
             return json.load(file)
     except FileNotFoundError:
         return {}
@@ -16,7 +16,7 @@ def save_profile(newProfile):
     # Fusionner les anciens profils avec les nouveaux profils
     listProfiles.update(newProfile)
     # Sauvegarder les profils mis à jour dans le fichier JSON
-    with open(profilesFileName, 'w') as file:
+    with open(PROFILE_JSON_DIR, 'w') as file:
         json.dump(listProfiles, file, indent=4)
 
 def user_exist(userID):
@@ -73,7 +73,7 @@ def get_user_infos(userID):
 def add_score(userID):
     try:
         # Ouvrir le fichier JSON en mode lecture
-        with open(profilesFileName, 'r') as fichier:
+        with open(PROFILE_JSON_DIR, 'r') as fichier:
             data = json.load(fichier)
 
         # Vérifier si l'utilisateur existe dans le fichier JSON
@@ -90,7 +90,7 @@ def add_score(userID):
             }
 
         # Ouvrir le fichier JSON en mode écriture pour enregistrer les modifications
-        with open(profilesFileName, 'w') as fichier:
+        with open(PROFILE_JSON_DIR, 'w') as fichier:
             json.dump(data, fichier, indent=4)
         print(f"Score de l'utilisateur {str(userID)} mis a jour avec succes")
 
@@ -102,7 +102,7 @@ def add_score(userID):
 def add_ratio_r(userID):
     try:
         # Ouvrir le fichier JSON en mode lecture
-        with open(profilesFileName, 'r') as fichier:
+        with open(PROFILE_JSON_DIR, 'r') as fichier:
             data = json.load(fichier)
 
         # Vérifier si l'utilisateur existe dans le fichier JSON
@@ -119,7 +119,7 @@ def add_ratio_r(userID):
             }
 
         # Ouvrir le fichier JSON en mode écriture pour enregistrer les modifications
-        with open(profilesFileName, 'w') as fichier:
+        with open(PROFILE_JSON_DIR, 'w') as fichier:
             json.dump(data, fichier, indent=4)
         print(f"Le nombre de ratio R de l'utilisateur {str(userID)} mis a jour avec succes")
 
@@ -131,7 +131,7 @@ def add_ratio_r(userID):
 def add_ratio_sr(userID):
     try:
         # Ouvrir le fichier JSON en mode lecture
-        with open(profilesFileName, 'r') as fichier:
+        with open(PROFILE_JSON_DIR, 'r') as fichier:
             data = json.load(fichier)
 
         # Vérifier si l'utilisateur existe dans le fichier JSON
@@ -148,7 +148,7 @@ def add_ratio_sr(userID):
             }
 
         # Ouvrir le fichier JSON en mode écriture pour enregistrer les modifications
-        with open(profilesFileName, 'w') as fichier:
+        with open(PROFILE_JSON_DIR, 'w') as fichier:
             json.dump(data, fichier, indent=4)
         print(f"Le nombre de ratio SR de l'utilisateur {str(userID)} mis a jour avec succes")
 
@@ -160,7 +160,7 @@ def add_ratio_sr(userID):
 def add_ratio_lr(userID):
     try:
         # Ouvrir le fichier JSON en mode lecture
-        with open(profilesFileName, 'r') as fichier:
+        with open(PROFILE_JSON_DIR, 'r') as fichier:
             data = json.load(fichier)
 
         # Vérifier si l'utilisateur existe dans le fichier JSON
@@ -177,7 +177,7 @@ def add_ratio_lr(userID):
             }
 
         # Ouvrir le fichier JSON en mode écriture pour enregistrer les modifications
-        with open(profilesFileName, 'w') as fichier:
+        with open(PROFILE_JSON_DIR, 'w') as fichier:
             json.dump(data, fichier, indent=4)
         print(f"Le nombre de ratio LR de l'utilisateur {str(userID)} mis a jour avec succes")
 

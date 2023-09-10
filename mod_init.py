@@ -23,10 +23,10 @@ bot = commands.Bot(command_prefix='*', intents=intents)
 scores = {}
 listProfiles = {}
 newProfile = {}
-profilesFileName = "profiles.json"
 MESSAGE_TIME = time(10, 30)
 MUSIC_DIR = 'C:\Projet\Python\music'
 MUSIC_DIR_YT = 'C:\Projet\Python\YTmusic'
 SECRET_JSON_DIR = "C:\Projet\Python\DiscordMikeBot\secrets.json"
+PROFILE_JSON_DIR = "C:\Projet\Python\DiscordMikeBot\profiles.json"
 number_msg = 0
 queueMusic = []
