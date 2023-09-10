@@ -19,7 +19,7 @@ from mod_profiles import *
 #-------- BOT COMMANDS --------
 @bot.command()
 async def aide(ctx):
-    await ctx.send("**Listes des commandes dispo :**\n- *join -> (mike bot rejoint le salon) \n- *leave -> (mike bot quitte le salon) \n- *play -> [youtube url] (Jouer un son depuis une vidéo youtube)\n- *next -> (passe la chanson) \n- *sound [your sound] -> (Joue un son rigolo) \n- *soundslist -> (Permet de voir les sons rigolo dispo) \n- *queue -> (permet de voir la playlist) \n- *clear -> (éfface la playlist) \n- *remove [music index] -> (Enlève une musique de la playlist)\n- *score [user tag] -> (permet de voir le score d'une personne) \n- *meteo [ville] -> (permet de voir la méteo dans ta ville bg)\n- *blague -> (petite blague 'souvent rasiste')\n- *astro [votre signe] -> (super signe astrologique...)\n- *mike [question pour mike] -> (marche plus déso je suis pas assez riche btw)")
+    await ctx.send("**Listes des commandes dispo (prefix *) :**\n- **join** (mike bot rejoint le salon) \n- **leave** (mike bot quitte le salon) \n- **play [youtube url]** (Jouer un son depuis une vidéo youtube)\n- **next** (passe la chanson) \n- **sound [your sound]** (Joue un son rigolo) \n- **soundslist** (Permet de voir les sons rigolo dispo) \n- **queue** (permet de voir la playlist) \n- **clear** (éfface la playlist) \n- **remove [music index]** (Enlève une musique de la playlist)\n- **profile [@user tag]** (permet de voir le profil d'une personne) \n- **meteo [ville]** (permet de voir la méteo dans ta ville bg)\n- **blague** (petite blague 'souvent rasiste')\n- **astro [votre signe]** (super signe astrologique...)\n- **mike [question pour mike]** (marche plus déso je suis pas assez riche btw)")
 
 @bot.command()
 async def info(ctx):
@@ -147,7 +147,7 @@ async def remove(ctx, index: int):
 
 @bot.command()
 async def profile(ctx, user: discord.Member = None):
-    await display_profile(ctx, user.id)
+    await display_profile(ctx, user.id if user else ctx.author.id)
     
 #-------- BOT EVENTS --------
 @bot.event
