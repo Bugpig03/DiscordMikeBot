@@ -44,7 +44,7 @@ async def display_profile(ctx, userID):
         temp_ratio_r = userKey["nbr_ratio_r"]  # Obtient le ratio_r ou 0 s'il n'existe pas
         temp_ratio_sr = userKey["nbr_ratio_sr"]  # Obtient le ratio_sr ou 0 s'il n'existe pas
         temp_ratio_lr = userKey["nbr_ratio_lr"]  # Obtient le ratio_lr ou 0 s'il n'existe pas
-        await ctx.send(f"**Profile de {temp_pseudo}** :\n- score : {temp_score}\n- ratio RARE : {temp_ratio_r}\n- ratio SUPER RARE : {temp_ratio_sr}\n- ratio LEGENDARY RARE : {temp_ratio_lr}")
+        await ctx.send(f"**Profil de {temp_pseudo}** :\n- score : {temp_score}\n- ratio RARE : {temp_ratio_r}\n- ratio SUPER RARE : {temp_ratio_sr}\n- ratio LEGENDARY RARE : {temp_ratio_lr}")
     else:
         await ctx.send("L'utilisateur n'existe pas sorry --'")
         

@@ -175,11 +175,11 @@ async def on_message(message):
 
     #reponse directe 
     if 'quoi' in message.content:
-        if random.randint(1,3) == 3:
-            await message.channel.send('FEUR + RATIO !')
+        if random.randint(1,9) == 3:
+            await message.channel.send('FEUR !')
 
     if 'oui' in message.content:
-        if random.randint(1,3) == 3:
+        if random.randint(1,9) == 3:
             await message.channel.send('stiti !')
 
     if ':d' in message.content:
@@ -208,7 +208,7 @@ async def on_message(message):
     if message.author.id != 430067459131834368: #id mike brant
         if rnd_trigger == 1000:
             add_ratio_lr(message.author.id)
-            await message.channel.send("**[LR]** menfou de type LEGENDAIRE OMG GG BTW (1/10000)**")
+            await message.channel.send("**[LR]** menfou de type LEGENDAIRE OMG GG BTW **(1/10000)**")
             print("menfou triggered 1/10000")
 
     await bot.process_commands(message)
