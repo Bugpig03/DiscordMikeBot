@@ -7,6 +7,7 @@ import os
 import re
 import time
 from datetime import datetime, time, timedelta
+# -*- coding: utf-8 -*-
 from dotenv import load_dotenv
 import asyncio
 import ffmpeg
@@ -16,6 +17,12 @@ import openai
 from pytube import YouTube
 from pydub import AudioSegment
 import json
+
+#-------- MIKE BOT --------
+BOT_NAME : "CREATOR"
+VERSION : "2.5-0"
+CREATOR : "BUGPIG"
+#--------------------------
 
 #-------- VARIABLES DECLARATIONS --------
 intents = discord.Intents.all()
@@ -30,3 +37,4 @@ SECRET_JSON_DIR = "C:\Projet\Python\DiscordMikeBot\secrets.json"
 PROFILE_JSON_DIR = "C:\Projet\Python\DiscordMikeBot\profiles.json"
 number_msg = 0
 queueMusic = []
+

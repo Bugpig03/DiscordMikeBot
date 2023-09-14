@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 #-------- IMPORTED MODULES --------
-from mod_init import *
+from init import *
 import json
 
 #-------- READ TOKENS FROM JSON FILE DO NOT USE IF YOU DONT HAVE JSON FILE FOR YOUR TOKEN --------
@@ -9,5 +10,5 @@ tokens = contenu_json.get("tokens", {})
 
 #-------- TOKENS AND KEYS --------
 blagues = BlaguesAPI(tokens.get("tokenJoke"))
-token_mikebot = tokens.get("tokenDiscordBot")
+botToken = tokens.get("tokenDiscordBot")
 openai.api_key = tokens.get("tokenOpenAI")

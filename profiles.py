@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 #-------- IMPORTED MODULES --------
 from bdb import GENERATOR_AND_COROUTINE_FLAGS
-from mod_init import *
+from init import *
 
 # Fonction pour charger les profils depuis un fichier JSON
 def get_loaded_profiles():

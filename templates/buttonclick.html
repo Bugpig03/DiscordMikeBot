@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Mike Bot</title>
+</head>
+<body>
+    <button id="start-button">plop</button>
+    <p id="result"></p>
+    <button id="score-button">Voir le classement du serveur</button>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#start-button").click(function() {
+                $.ajax({
+                    url: '/start_function',
+                    type: 'POST',
+                    success: function(response) {
+                        $("#result").text(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            $("#score-button").click(function() {
+                $.ajax({
+                    url: '/view_score',
+                    type: 'POST',
+                    success: function(response) {
+                        $("#result").text(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

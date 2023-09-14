@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 #-------- IMPORTED MODULES --------
-from mod_init import *
-from mod_token import *
+from init import *
+from tokens import *
 
 #-------- FUNCTIONS --------
 
@@ -113,6 +114,9 @@ def time_until_message():
     return (message_datetime - datetime.now()).seconds
 
 async def play_sound(ctx, file):
+    print("plop from functions")
+    if ctx == 0:
+        ctx = bot.get_channel(893622097195204608)
     file_path = os.path.join(MUSIC_DIR, f'{file}.mp3')
     source = discord.FFmpegPCMAudio(file_path)
     ctx.voice_client.play(source)  # Use an 'after' callback to play the next sound
@@ -159,3 +163,4 @@ async def music_next(ctx):
     else:
         bot.loop.create_task(ctx.voice_client.disconnect())
         print("function music_next else")
+        

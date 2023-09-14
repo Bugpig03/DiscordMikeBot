@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\templates"
   ],
-  "SelectedNode": "\\mod_profiles.py",
+  "SelectedNode": "\\main.py",
   "PreviewInSolutionExplorer": false
 }
