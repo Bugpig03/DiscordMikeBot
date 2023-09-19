@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
-import subprocess
+import threading
 
-# Lancer le bot Discord dans un processus séparé
-bot_process = subprocess.Popen(['python', 'bot.py'])
+from bot import run_discord_bot
+from server_web import run_flask_server
 
-# Lancer le serveur web Flask dans un processus séparé
-server_process = subprocess.Popen(['python', 'server_web.py'])
+if __name__ == "__main__":
 
-# Attendre que les deux processus se terminent (vous pouvez ajuster cela selon vos besoins)
-bot_process.wait()
-server_process.wait()
+    flask_thread = threading.Thread(target=run_flask_server)
+    flask_thread.start()
+
+    run_discord_bot()

@@ -2,8 +2,8 @@
 import init
 from init import *
 
-import bot
-from bot import *
+#import bot
+#from bot import *
 
 import functions
 from functions import *
@@ -13,6 +13,10 @@ from tokens import *
 
 import profiles
 from profiles import *
+
+import server_web
+from server_web import *
+
 
 #-------- BOT COMMANDS --------
 @bot.command()
@@ -210,9 +214,6 @@ async def on_message(message):
             print("menfou triggered 1/10000")
 
     await bot.process_commands(message)
-
-
-bot.run(botToken)
-
-
     
+def run_discord_bot():
+    bot.run(botToken)
