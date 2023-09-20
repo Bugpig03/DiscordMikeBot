@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #-------- IMPORTED MODULES --------
 from bdb import GENERATOR_AND_COROUTINE_FLAGS
+from cgi import print_exception
+from re import U
 from init import *
 
 # Fonction pour charger les profils depuis un fichier JSON
@@ -53,15 +55,12 @@ async def get_pseudo(userID):
     try:
         user = await bot.fetch_user(userID)
         if user:
-            return user.name  # Vous pouvez retourner le nom d'utilisateur ici
+            return user.name
         else:
             return None
     except discord.errors.NotFound:
-        return None  # L'utilisateur n'a pas été trouvé
-
-
-id_utilisateur = "301727996392505346"
-
+        return None
+ 
 def get_user_infos(userID):
     print(f"Voici l'id pour le get user infos : {userID}")
     listProfiles = get_loaded_profiles()
@@ -186,3 +185,19 @@ def add_ratio_lr(userID):
         print("Le fichier JSON n a pas ete trouve.")
     except Exception as e:
         print(f"Une erreur s'est produite : {str(e)}")
+        
+    
+async def get_top_10_users_by_score():
+    # Charger les données JSON depuis le fichier
+    with open(PROFILE_JSON_DIR, 'r') as json_file:
+        data = json.load(json_file)
+
+    # Trier les données en fonction du score, en ordre décroissant
+    sorted_data = sorted(data.items(), key=lambda x: x[1]['score'], reverse=True)
+
+    # Sélectionner les 10 premiers éléments avec les scores correspondants
+    top_10_users_id = [(user[0], user[1]['score']) for user in sorted_data[:10]]
+    
+    return top_10_users_id
+
+

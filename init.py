@@ -5,7 +5,7 @@ from discord.ext import commands
 from discord.utils import get
 import os
 import re
-import time
+import time as classictime
 from datetime import datetime, time, timedelta
 from dotenv import load_dotenv
 import asyncio
@@ -16,25 +16,20 @@ import openai
 from pytube import YouTube
 from pydub import AudioSegment
 import json
-from flask import Flask, render_template, jsonify
+from quart import Quart, render_template
 from aiohttp import web
 import threading
-
-#-------- MIKE BOT --------
-BOT_NAME : "CREATOR"
-VERSION : "2.5-1"
-CREATOR : "BUGPIG"
-#--------------------------
 
 #-------- VARIABLES DECLARATIONS --------
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='*', intents=intents) # instance bot discord
-app = web.Application() #instance server flask
+app = Quart(__name__) #instant server web quart
 scores = {}
 listProfiles = {}
 newProfile = {}
-MESSAGE_TIME = time(10, 30)
+MESSAGE_TIME = time(10, 35)
 queueMusic = []
+currentTOP10 = []
 
 #-------- PATH CONFIGURATION --------
 MUSIC_DIR = 'C:\Projet\Python\music'

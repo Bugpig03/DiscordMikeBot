@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>MIKE BOT - Score</title>
+</head>
+<body>
+    <h1>Score</h1>
+    <p>BugPig est top 1 comme d'hab héhé BAKA</p>
+    <h2>Top 10 utilisateurs sur MIKE SERVER:</h2>
+    <table>
+        <tr>
+            <th>User ID</th>
+            <th>Score</th>
+        </tr>
+        {% for entry in top10 %}
+        <tr>
+            <td>{{ entry[0] }}</td>
+            <td>{{ entry[1] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Retour à la page principale</a>
+</body>
+</html>

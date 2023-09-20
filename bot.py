@@ -2,9 +2,6 @@
 import init
 from init import *
 
-#import bot
-#from bot import *
-
 import functions
 from functions import *
 
@@ -22,11 +19,6 @@ from server_web import *
 @bot.command()
 async def aide(ctx):
     await ctx.send("**Listes des commandes dispo (prefix *) :**\n- **join** (mike bot rejoint le salon) \n- **leave** (mike bot quitte le salon) \n- **play [youtube url]** (Jouer un son depuis une vidéo youtube)\n- **next** (passe la chanson) \n- **sound [your sound]** (Joue un son rigolo) \n- **soundslist** (Permet de voir les sons rigolo dispo) \n- **queue** (permet de voir la playlist) \n- **clear** (éfface la playlist) \n- **remove [music index]** (Enlève une musique de la playlist)\n- **profile [@user tag]** (permet de voir le profil d'une personne) \n- **meteo [ville]** (permet de voir la méteo dans ta ville bg)\n- **blague** (petite blague 'souvent rasiste')\n- **astro [votre signe]** (super signe astrologique...)\n- **mike [question pour mike]** (marche plus déso je suis pas assez riche btw)")
-
-@bot.command()
-async def info(ctx):
-    info = f"**Informations sur MIKE BOT**\n- VERSION : {VERSION} \n- MADE BY : {CREATOR}"
-    await ctx.send(info)
 
 @bot.command()
 async def soundslist(ctx):
@@ -88,7 +80,7 @@ async def meteo(ctx, *, message):
 @bot.command()
 async def mike(ctx):
     await ctx.send("Je suis désolé, mon ami, mais je n'ai plus cette capacité exubérante, c'est du passé, mec.")
-
+    
 @bot.command()
 async def astro(ctx, *, message):
     astro_info = functions.get_astro(message.lower())
@@ -150,6 +142,10 @@ async def remove(ctx, index: int):
 @bot.command()
 async def profile(ctx, user: discord.Member = None):
     await display_profile(ctx, user.id if user else ctx.author.id)
+   
+@bot.command()
+async def top(ctx):
+    await ctx.send("DESO CHATGPT VEUT PAS ME FAIRE CA PTN")
     
 #-------- BOT EVENTS --------
 @bot.event
