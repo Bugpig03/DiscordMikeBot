@@ -123,6 +123,13 @@ async def play_sound(ctx, file):
 
 async def play_youtube_music(ctx, url_or_title):
     print("function play youtube music start")
+    
+    if ctx is None:
+        channel_id = 426760269205602304  # L'ID du salon vocal par défaut si le contexte est None
+        channel = bot.get_channel(channel_id)
+        if channel:
+            await channel.connect()
+            ctx = channel
 
     yt = YouTube(url_or_title)
     stream = yt.streams.filter(only_audio=True).first()

@@ -18,7 +18,7 @@ from server_web import *
 #-------- BOT COMMANDS --------
 @bot.command()
 async def aide(ctx):
-    await ctx.send("**Listes des commandes dispo (prefix *) :**\n- **join** (mike bot rejoint le salon) \n- **leave** (mike bot quitte le salon) \n- **play [youtube url]** (Jouer un son depuis une vidéo youtube)\n- **next** (passe la chanson) \n- **sound [your sound]** (Joue un son rigolo) \n- **soundslist** (Permet de voir les sons rigolo dispo) \n- **queue** (permet de voir la playlist) \n- **clear** (éfface la playlist) \n- **remove [music index]** (Enlève une musique de la playlist)\n- **profile [@user tag]** (permet de voir le profil d'une personne) \n- **meteo [ville]** (permet de voir la méteo dans ta ville bg)\n- **blague** (petite blague 'souvent rasiste')\n- **astro [votre signe]** (super signe astrologique...)\n- **mike [question pour mike]** (marche plus déso je suis pas assez riche btw)")
+    await ctx.send("**Listes des commandes dispo (prefix *) :**\n- **join** (mike bot rejoint le salon) \n- **leave** (mike bot quitte le salon) \n- **play [youtube url]** (Jouer un son depuis une vidéo youtube)\n- **next** (passe la chanson) \n- **sound [your sound]** (Joue un son rigolo) \n- **soundslist** (Permet de voir les sons rigolo dispo) \n- **queue** (permet de voir la playlist) \n- **clear** (éfface la playlist) \n- **remove [music index]** (Enlève une musique de la playlist)\n- **profile [@user tag]** (permet de voir le profil d'une personne)\n- **top** (permet de voir le top 10 du serveur) \n- **meteo [ville]** (permet de voir la méteo dans ta ville bg)\n- **blague** (petite blague 'souvent rasiste')\n- **astro [votre signe]** (super signe astrologique...)\n- **mike [question pour mike]** (marche plus déso je suis pas assez riche btw)")
 
 @bot.command()
 async def soundslist(ctx):
@@ -145,19 +145,12 @@ async def profile(ctx, user: discord.Member = None):
    
 @bot.command()
 async def top(ctx):
-    await ctx.send("DESO CHATGPT VEUT PAS ME FAIRE CA PTN")
+    await ctx.send("Vas sur le site internet je vais pas me répéter boloss")
     
 #-------- BOT EVENTS --------
 @bot.event
 async def on_ready():
-    print(f'Logged in as {bot.user.name}')
-    while True:
-        if functions.time_until_message() == 0:
-            await asyncio.sleep(functions.time_until_message())
-            await functions.send_message_matin()
-
-@bot.event
-async def on_ready():
+    print(f"Connected as {bot.user.name}")
     while True:
         if functions.time_until_message() == 0:
             await asyncio.sleep(functions.time_until_message())
@@ -169,7 +162,7 @@ async def on_message(message):
     if message.author == bot.user: # check if message was sent by the bot
         return
     #function.add_score(message.author)
-    add_score(message.author.id)
+    await add_score(message.author.id)
 
     #reponse directe 
     if 'quoi' in message.content:
@@ -187,26 +180,23 @@ async def on_message(message):
         if message.author.id == 301727996392505346: # id bugpig
             await message.channel.send('BELLIIIISIIIIMAAAA Y BELLIIISIIIMOOO !!!! ')      
       
-    #Les randoms        
-    rnd_trigger = random.randint(1,200)
+    # RATIO SYSTEM      
     if message.author.id != 430067459131834368: #id mike brant
-        if rnd_trigger == 4:
-            add_ratio_r(message.author.id)
-            await message.channel.send("[R] menfou mec raconte pas ta vie **(1/200)**")
+        if random.randint(1,200) == 4:
+            await add_ratio_r(message.author.id)
+            await message.channel.send("**[R]** menfou mec raconte pas ta vie **(1/200)**")
             print("triggered 1/200")
 
-    rnd_trigger = random.randint(1,1500)
     if message.author.id != 430067459131834368: #id mike brant
-        if rnd_trigger == 500:
-            add_ratio_sr(message.author.id)
-            await message.channel.send("**[SR] menfou de type ultra rare OMG **(1/1500)**")
+        if random.randint(1,1500) == 500:
+            await add_ratio_sr(message.author.id)
+            await message.channel.send("**[SR]** menfou mec raconte pas ta vie de type SUPER RARE **(1/1500)**")
             print("menfou triggered 1/1500")
 
-    rnd_trigger = random.randint(1,10000)
     if message.author.id != 430067459131834368: #id mike brant
-        if rnd_trigger == 1000:
-            add_ratio_lr(message.author.id)
-            await message.channel.send("**[LR]** menfou de type LEGENDAIRE OMG GG BTW **(1/10000)**")
+        if random.randint(1,10000) == 1000:
+            await add_ratio_lr(message.author.id)
+            await message.channel.send("**[LR]** menfou mec raconte pas ta vie de type LEGENDARY RARE **(1/10000)**")
             print("menfou triggered 1/10000")
 
     await bot.process_commands(message)

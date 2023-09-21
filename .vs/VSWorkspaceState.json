@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\templates"
   ],
-  "SelectedNode": "\\main.py",
+  "SelectedNode": "\\server_web.py",
   "PreviewInSolutionExplorer": false
 }
