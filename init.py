@@ -1,4 +1,4 @@
-#-------- LIBRARIES --------
+﻿#-------- LIBRARIES --------
 import discord
 import random
 from discord.ext import commands
@@ -30,6 +30,10 @@ newProfile = {}
 MESSAGE_TIME = time(10, 35)
 queueMusic = []
 currentTOP10 = []
+
+currentAnecdote = "L'anecdote du jour a été suprimmée désolé mon gars."
+currentMusic = {}
+currentMusicQueue = []
 
 #-------- PATH CONFIGURATION --------
 MUSIC_DIR = 'C:\Projet\Python\music'

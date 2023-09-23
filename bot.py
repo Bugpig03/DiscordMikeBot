@@ -14,6 +14,8 @@ from profiles import *
 import server_web
 from server_web import *
 
+import music
+from music import *
 
 #-------- BOT COMMANDS --------
 @bot.command()
@@ -101,22 +103,21 @@ async def sound(ctx, file):
         await functions.play_sound(ctx, file)
 
 @bot.command()
-async def play(ctx, urlOrTitle):
-    voice_client = get(bot.voice_clients, guild=ctx.guild)
-
-    if not voice_client:
-        channel = ctx.author.voice.channel
-        voice_client = await channel.connect()
-
-    if voice_client.is_playing():
-        queueMusic.append(urlOrTitle)
-        await ctx.send(f"Votre musique a été ajouté à la file d'attente. [{len(queueMusic)}]")
-    else:
-        await functions.play_youtube_music(ctx, urlOrTitle)
+async def play(ctx, url):
+    await connect_bot_to_channel(ctx)
+    await add_music_to_queue(ctx, url)
 
 @bot.command()
+async def track(ctx):
+    if currentMusic is not None:
+        print(currentMusic["title"])
+        await ctx.send(f"**Informations sur la musique:**\n* Titre : \n* Durée s")
+    else:
+        await ctx.send(f"Je ne joue pas de musique en ce moment. (désolé des fois je suis un MANTHEUR !")
+    
+@bot.command()
 async def next(ctx):
-    await functions.music_next(ctx)
+    await next_music(ctx)
 
 @bot.command()
 async def clear(ctx):

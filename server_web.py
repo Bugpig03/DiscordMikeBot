@@ -4,11 +4,10 @@ import init
 from init import *
 
 from profiles import get_top_10_users_by_score
-from functions import play_youtube_music
 
 @app.route('/')
 async def index():
-    return await render_template('index.html')
+    return await render_template('index.html', currentAnecdote=currentAnecdote)
 
 @app.route('/music')
 async def render_music():
