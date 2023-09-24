@@ -80,7 +80,7 @@ async def meteo(ctx, *, message):
     await ctx.send(f"**La méteo à {weather_info['city']} :**\n- Température : {weather_info['temperature']}°C\n- Description : {weather_info['description']}\n- Humidité : {weather_info['humidity']}%\n- Vitesse du vent : {temp_kph} km/h")
 
 @bot.command()
-async def mike(ctx):
+async def mike(ctx, message):
     await ctx.send("Je suis désolé, mon ami, mais je n'ai plus cette capacité exubérante, c'est du passé, mec.")
     
 @bot.command()
@@ -121,13 +121,13 @@ async def next(ctx):
 
 @bot.command()
 async def clear(ctx):
-    queueMusic.clear()
+    init.currentMusicQueue.clear()
     await ctx.send("La file d'attente a été reset.")
 
 @bot.command()
 async def queue(ctx):
-    if queueMusic:
-        await ctx.send(f"Queue: {len(queueMusic)}")
+    if len(init.currentMusicQueue) > 0:
+        await ctx.send(f"Queue: {len(init.currentMusicQueue)}")
     else:
         await ctx.send("La file d'attente est vide.")
 
@@ -152,7 +152,9 @@ async def top(ctx):
 @bot.event
 async def on_ready():
     print(f"Connected as {bot.user.name}")
+    await asyncio.sleep(1)
     while True:
+        await check_if_music_in_queue()
         if functions.time_until_message() == 0:
             await asyncio.sleep(functions.time_until_message())
             await functions.send_message_matin()

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #-------- IMPORTED MODULES --------
+from mimetypes import init
 from init import *
 from tokens import *
 
@@ -14,7 +15,7 @@ async def connect_bot_to_channel(ctx):
             voice_client = await channel.connect()
  
 async def add_music_to_queue(ctx, url):
-    voice_client = get(bot.voice_clients, guild=ctx.guild)
+    voice_client = await get_voice_client(bot)
     yt = YouTube(url)
     
     new_music = {
@@ -28,11 +29,13 @@ async def add_music_to_queue(ctx, url):
     if voice_client.is_playing():
         await ctx.send(f"J'ai ajouté **{yt.title}** à la playlist")
     else:
-        await play_music(ctx)
+        await ctx.send(f"Je vais joué **{yt.title}** maintenant !")
         
-async def play_music(ctx):
-    voice_client = get(bot.voice_clients, guild=ctx.guild)
+async def play_music():
+    voice_client = await get_voice_client(bot)
     if not currentMusicQueue:
+        return
+    if voice_client.is_playing():
         return
     print("function play music : START")
     newMusic = currentMusicQueue.pop(0)
@@ -63,18 +66,35 @@ async def play_music(ctx):
     
     source = discord.FFmpegPCMAudio(chemin_fichier_mp3)
 
-    ctx.voice_client.play(source,after=lambda e: auto_next_music(ctx) )
+    voice_client.play(source)
     print("function play music : END") 
     
-def auto_next_music(ctx):
+def auto_next_music():
     if currentMusicQueue:
-        asyncio.run(next_music(ctx))
+        asyncio.run(next_music())
         
-async def next_music(ctx):
-    if ctx.voice_client.is_playing():
-        ctx.voice_client.stop()
+async def next_music():
+    voice_client = await get_voice_client(bot)
+    if voice_client.is_playing():
+        voice_client.stop()
     if currentMusicQueue:
-        await play_music(ctx)
+        await play_music()
+        
+async def check_if_music_in_queue():
+    if bot is None:
+        return
+    else:
+        voice_client = await get_voice_client(bot)
+    
+    if voice_client is None:
+        return  # Handle the case where voice_client is None
+    
+    if currentMusicQueue is not None:
+        if voice_client.is_playing():
+            return
+        else:
+            await play_music()
+            
       
 # SOUND SYSTEM
 def liste_fichiers_mp3(): # Permet de faire lire a Mike bot les fichiers MP3 situé dans le dossier MUSIC
@@ -103,3 +123,8 @@ async def play_sound(ctx, file):
     file_path = os.path.join(MUSIC_DIR, f'{file}.mp3')
     source = discord.FFmpegPCMAudio(file_path)
     ctx.voice_client.play(source)  # Use an 'after' callback to play the next sound
+    
+async def get_voice_client(bot):
+    for vc in bot.voice_clients:
+        return vc  # Récupère le premier client vocal trouvé
+    return None  # Aucun client vocal trouvé

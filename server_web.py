@@ -1,3 +1,4 @@
+from multiprocessing.pool import INIT
 import profile
 from tkinter import CURRENT
 import init
@@ -7,7 +8,8 @@ from profiles import get_top_10_users_by_score
 
 @app.route('/')
 async def index():
-    return await render_template('index.html', currentAnecdote=currentAnecdote)
+    print(f"Nouvel update : {currentAnecdote}")
+    return await render_template('index.html', currentAnecdote=init.currentAnecdote)
 
 @app.route('/music')
 async def render_music():
@@ -22,6 +24,15 @@ async def render_score():
 async def submit_text():
     form = await request.form # Récupère le texte soumis par l'utilisateur
     user_input = form['user_input']
+    
+    new_music = {
+    "url" : str(user_input),
+    "title" : str("website"),
+    "length" : str("69")
+    }
+    
+    init.currentMusicQueue.append(new_music)
+    
     # Faites quelque chose avec user_input, par exemple, imprimez-le
     print(f"Texte soumis par l'utilisateur : {user_input}")
     # Redirigez l'utilisateur vers la page de musique ou effectuez une autre action souhaitée
