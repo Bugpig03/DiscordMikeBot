@@ -20,25 +20,57 @@ from music import *
 #-------- BOT COMMANDS --------
 @bot.command()
 async def aide(ctx):
-    await ctx.send("**Listes des commandes dispo (prefix *) :**\n- **join** (mike bot rejoint le salon) \n- **leave** (mike bot quitte le salon) \n- **play [youtube url]** (Jouer un son depuis une vidéo youtube)\n- **next** (passe la chanson) \n- **sound [your sound]** (Joue un son rigolo) \n- **soundslist** (Permet de voir les sons rigolo dispo) \n- **queue** (permet de voir la playlist) \n- **clear** (éfface la playlist) \n- **remove [music index]** (Enlève une musique de la playlist)\n- **profile [@user tag]** (permet de voir le profil d'une personne)\n- **top** (permet de voir le top 10 du serveur) \n- **meteo [ville]** (permet de voir la méteo dans ta ville bg)\n- **blague** (petite blague 'souvent rasiste')\n- **astro [votre signe]** (super signe astrologique...)\n- **mike [question pour mike]** (marche plus déso je suis pas assez riche btw)")
-
-@bot.command()
-async def soundslist(ctx):
-    await ctx.send(functions.liste_fichiers_mp3())
-
-@bot.command()
-async def join(ctx):
-    channel = ctx.author.voice.channel
-    await channel.connect()
-
-@bot.command()
-async def leave(ctx):
-    await ctx.voice_client.disconnect()
+    await ctx.send("**Listes des commandes dispo (prefix *) :**\n- **join** (mike bot rejoint le salon) \n- **play [youtube url]** (Jouer un son depuis une vidéo youtube)\n- **next** (passe la chanson)\n- **queue** (permet de voir la playlist) \n- **clear** (éfface la playlist) \n- **remove [music index]** (Enlève une musique de la playlist)\n- **profile [@user tag]** (permet de voir le profil d'une personne) \n- **meteo [ville]** (permet de voir la méteo dans ta ville bg)\n- **blague** (petite blague 'souvent rasiste')\n- **astro [votre signe]** (super signe astrologique...)\n- **mike [question pour mike]** (marche plus déso je suis pas assez riche btw)")
 
 @bot.command()
 async def tell(ctx, *, message):
     await ctx.message.delete()
     await ctx.send(message)
+    
+@bot.command()
+async def mike(ctx):
+    await ctx.send("Je suis désolé, mon ami, mais je n'ai plus cette capacité exubérante, c'est du passé, mec.")
+    
+@bot.command()
+async def profile(ctx, user: discord.Member = None):
+    await display_profile(ctx, user.id if user else ctx.author.id)
+    
+#-------- MUSIC COMMANDS --------
+
+@bot.command()
+async def play(ctx, url):
+    await ctx.message.delete()
+    await add_music_to_queue(ctx, url)
+@play.error
+async def play_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send(f"Tu dois mettre un url bg !")
+        
+@bot.command()
+async def stop(ctx):
+    await stop_music()
+    
+@bot.command()
+async def next(ctx):
+    await next_music()
+
+@bot.command()
+async def queue(ctx):
+    if len(init.currentMusicQueue) > 0:
+        await ctx.send(f"Queue: {len(init.currentMusicQueue)}")
+    else:
+        await ctx.send("La file d'attente est vide.")
+
+@bot.command()
+async def remove(ctx, index: int):
+    index = index - 1
+    if 0 <= index < len(queueMusic):
+        queueMusic.pop(index)
+        await ctx.send(f"La musique **{index}** a été enlevé à la file d'attente.")
+    else:
+        await ctx.send("Gros golmon.")
+        
+#-------- API COMMANDS --------
 
 @bot.command()
 async def blague(ctx):
@@ -80,74 +112,15 @@ async def meteo(ctx, *, message):
     await ctx.send(f"**La méteo à {weather_info['city']} :**\n- Température : {weather_info['temperature']}°C\n- Description : {weather_info['description']}\n- Humidité : {weather_info['humidity']}%\n- Vitesse du vent : {temp_kph} km/h")
 
 @bot.command()
-async def mike(ctx, message):
-    await ctx.send("Je suis désolé, mon ami, mais je n'ai plus cette capacité exubérante, c'est du passé, mec.")
-    
-@bot.command()
 async def astro(ctx, *, message):
     astro_info = functions.get_astro(message.lower())
     asyncio.sleep(1)
-    await ctx.send(f"**Voici l'horoscope du jour pour les {message.lower()} :** {astro_info}")
-
-@bot.command()
-async def sound(ctx, file):
-    voice_client = get(bot.voice_clients, guild=ctx.guild)
-
-    if not voice_client:
-        channel = ctx.author.voice.channel
-        voice_client = await channel.connect()
-
-    if voice_client.is_playing():
-        await ctx.send(f"**Déso mon gars mais je chante déja la.")
-    else:
-        await functions.play_sound(ctx, file)
-
-@bot.command()
-async def play(ctx, url):
-    await connect_bot_to_channel(ctx)
-    await add_music_to_queue(ctx, url)
-
-@bot.command()
-async def track(ctx):
-    if currentMusic is not None:
-        print(currentMusic["title"])
-        await ctx.send(f"**Informations sur la musique:**\n* Titre : \n* Durée s")
-    else:
-        await ctx.send(f"Je ne joue pas de musique en ce moment. (désolé des fois je suis un MANTHEUR !")
-    
-@bot.command()
-async def next(ctx):
-    await next_music(ctx)
-
-@bot.command()
-async def clear(ctx):
-    init.currentMusicQueue.clear()
-    await ctx.send("La file d'attente a été reset.")
-
-@bot.command()
-async def queue(ctx):
-    if len(init.currentMusicQueue) > 0:
-        await ctx.send(f"Queue: {len(init.currentMusicQueue)}")
-    else:
-        await ctx.send("La file d'attente est vide.")
-
-@bot.command()
-async def remove(ctx, index: int):
-    index = index - 1
-    if 0 <= index < len(queueMusic):
-        queueMusic.pop(index)
-        await ctx.send(f"La musique **{index}** a été enlevé à la file d'attente.")
-    else:
-        await ctx.send("Gros golmon.")
-
-@bot.command()
-async def profile(ctx, user: discord.Member = None):
-    await display_profile(ctx, user.id if user else ctx.author.id)
-   
-@bot.command()
-async def top(ctx):
-    await ctx.send("Vas sur le site internet je vais pas me répéter boloss")
-    
+    await ctx.send(f"**Voici l'horoscope du jour pour les {message.lower()} :** {astro_info}") 
+@astro.error
+async def astro_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Idiot ! Tu dois spécifier un signe astrologique dans la commande !")
+ 
 #-------- BOT EVENTS --------
 @bot.event
 async def on_ready():

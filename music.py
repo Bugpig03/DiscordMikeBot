@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 #-------- IMPORTED MODULES --------
+import calendar
 from mimetypes import init
 from init import *
 from tokens import *
+from init import currentMusic
 
 #-------- FUNCTIONS --------
 async def connect_bot_to_channel(ctx):
@@ -16,6 +18,8 @@ async def connect_bot_to_channel(ctx):
  
 async def add_music_to_queue(ctx, url):
     voice_client = await get_voice_client(bot)
+ 
+    text_channel = bot.get_channel(mainTextChannel)
     yt = YouTube(url)
     
     new_music = {
@@ -25,13 +29,9 @@ async def add_music_to_queue(ctx, url):
     }
     
     currentMusicQueue.append(new_music)
-    
-    if voice_client.is_playing():
-        await ctx.send(f"J'ai ajouté **{yt.title}** à la playlist")
-    else:
-        await ctx.send(f"Je vais joué **{yt.title}** maintenant !")
         
 async def play_music():
+    global currentMusic
     voice_client = await get_voice_client(bot)
     if not currentMusicQueue:
         return
@@ -44,7 +44,10 @@ async def play_music():
         "title" : newMusic["title"],
         "length" : newMusic["length"]
     }
+    currentMusic = "OKAY"
     yt = YouTube(newMusic["url"])
+    if yt is None:
+        return
     stream = yt.streams.filter(only_audio=True).first()
     # Téléchargez la piste audio
     stream.download(output_path=MUSIC_DIR_YT)
@@ -68,26 +71,16 @@ async def play_music():
 
     voice_client.play(source)
     print("function play music : END") 
-    
-def auto_next_music():
-    if currentMusicQueue:
-        asyncio.run(next_music())
-        
-async def next_music():
-    voice_client = await get_voice_client(bot)
-    if voice_client.is_playing():
-        voice_client.stop()
-    if currentMusicQueue:
-        await play_music()
-        
+       
 async def check_if_music_in_queue():
     if bot is None:
         return
-    else:
-        voice_client = await get_voice_client(bot)
+    
+    voice_client = await get_voice_client(bot)
     
     if voice_client is None:
-        return  # Handle the case where voice_client is None
+        voice_channel = bot.get_channel(mainVoiceChannel)
+        voice_client = await voice_channel.connect()
     
     if currentMusicQueue is not None:
         if voice_client.is_playing():
@@ -95,35 +88,28 @@ async def check_if_music_in_queue():
         else:
             await play_music()
             
-      
-# SOUND SYSTEM
-def liste_fichiers_mp3(): # Permet de faire lire a Mike bot les fichiers MP3 situé dans le dossier MUSIC
-    # Récupérer le chemin absolu du dossier "music" par rapport à l'emplacement du code
-    dossier_music = MUSIC_DIR
+def is_valid_youtube_url(url):
+    # Vérifier si l'URL commence par "https://www.youtube.com/"
+    if not url.startswith("https://www.youtube.com/"):
+        return False
 
-    # Vérifier si le dossier "music" existe
-    if not os.path.exists(dossier_music) or not os.path.isdir(dossier_music):
-        return "Le dossier 'music' n'existe pas à cet emplacement."
-
-    # Filtrer les fichiers MP3 dans le dossier et les ajouter à une liste
-    fichiers_mp3 = [fichier for fichier in os.listdir(dossier_music) if fichier.lower().endswith(".mp3")]
-
-    if not fichiers_mp3:
-        return "Je n'ai malheuresement aucun fichier mp3 :('."
-    else:
-        texte_liste = "**Liste des fichiers MP3 dispo:**\n"
-        for fichier_mp3 in fichiers_mp3:
-            texte_liste += f"- {fichier_mp3}\n"
-        return texte_liste
-
-async def play_sound(ctx, file):
-    print("plop from functions")
-    if ctx == 0:
-        ctx = bot.get_channel(893622097195204608)
-    file_path = os.path.join(MUSIC_DIR, f'{file}.mp3')
-    source = discord.FFmpegPCMAudio(file_path)
-    ctx.voice_client.play(source)  # Use an 'after' callback to play the next sound
-    
+    # Vérifier si l'URL est accessible en utilisant une requête HTTP
+    response = requests.head(url)
+    return response.status_code == 200
+            
+async def stop_music():
+    voice_client = await get_voice_client(bot)
+    if voice_client and voice_client.is_playing():
+        # Arrêtez la diffusion audio
+        init.currentMusicQueue = []
+        voice_client.stop()
+        
+async def next_music():
+    voice_client = await get_voice_client(bot)
+    if voice_client and voice_client.is_playing():
+        # Arrêtez la diffusion audio
+        voice_client.stop()
+ 
 async def get_voice_client(bot):
     for vc in bot.voice_clients:
         return vc  # Récupère le premier client vocal trouvé
