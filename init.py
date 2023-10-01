@@ -42,7 +42,7 @@ currentMusicQueue = []
 #-------- PATH CONFIGURATION --------
 MUSIC_DIR = 'C:\Projet\Python\music'
 MUSIC_DIR_YT = 'C:\Projet\Python\YTmusic'
-SECRET_JSON_DIR = "C:\Projet\Python\DiscordMikeBot\secrets.json"
-PROFILE_JSON_DIR = "C:\Projet\Python\DiscordMikeBot\profiles.json"
+SECRET_JSON_DIR = r"C:\Projet\Python\DiscordMikeBot\secrets.json"
+PROFILE_JSON_DIR = r"C:\Users\Administrateur\source\repos\Bugpig03\DiscordMikeBot\profiles.json"
 
 

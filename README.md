@@ -7,7 +7,7 @@ Mike Bot is a Discord bot available on the Mike Brant server. It offers several 
 
 
 ## Version
-- 2.6.0 - master (music key words system)
+- 2.6.1 - master (music key words system)
 
 ## Features
 
