@@ -15,6 +15,7 @@ from blagues_api import BlaguesAPI
 import openai
 from pytube import YouTube
 from pydub import AudioSegment
+from youtubesearchpython import VideosSearch
 import json
 from quart import Quart, render_template, request, redirect
 from aiohttp import web

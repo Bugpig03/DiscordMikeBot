@@ -18,8 +18,12 @@ async def connect_bot_to_channel(ctx):
  
 async def add_music_to_queue(ctx, url):
     voice_client = await get_voice_client(bot)
- 
     text_channel = bot.get_channel(mainTextChannel)
+    
+    if not is_valid_youtube_url(url):
+        url = search_youtube_video_url(url)
+        if url is None:
+            return
     yt = YouTube(url)
     
     new_music = {
@@ -51,7 +55,7 @@ async def play_music():
     stream = yt.streams.filter(only_audio=True).first()
     # Téléchargez la piste audio
     stream.download(output_path=MUSIC_DIR_YT)
-    nom_fichier_mp3 = newMusic['title'] + ".mp3"
+    nom_fichier_mp3 = "music" + str(random.randint(0,9999999999)) + ".mp3"
     chemin_fichier_mp3 = os.path.join(MUSIC_DIR_YT, nom_fichier_mp3)
     
     # Supprimez le fichier MP3 existant s'il existe déjà
@@ -114,3 +118,37 @@ async def get_voice_client(bot):
     for vc in bot.voice_clients:
         return vc  # Récupère le premier client vocal trouvé
     return None  # Aucun client vocal trouvé
+
+def is_valid_youtube_url(url):
+    # Analyser l'URL pour extraire l'identifiant vidéo
+    video_id = None
+    if "youtube.com" in url:
+        video_id = url.split("v=")[1]
+    elif "youtu.be" in url:
+        video_id = url.split("/")[-1]
+
+    if video_id:
+        # Rechercher la vidéo en utilisant l'identifiant vidéo
+        videos_search = VideosSearch(video_id, limit=1)
+        results = videos_search.result()
+        
+        # Vérifier si la vidéo existe
+        if len(results['result']) > 0:
+            return True
+
+    return False
+
+def search_youtube_video_url(keywords):
+    # Créer une instance de VideosSearch
+    videos_search = VideosSearch(" ".join(keywords), limit = 1)
+    
+    # Obtenir les résultats de recherche
+    results = videos_search.result()
+    
+    # Vérifier si des vidéos ont été trouvées
+    if len(results['result']) > 0:
+        # Obtenir l'URL de la première vidéo trouvée
+        video_url = results['result'][0]['link']
+        return video_url
+    else:
+        return None

@@ -7,19 +7,17 @@ Mike Bot is a Discord bot available on the Mike Brant server. It offers several 
 
 
 ## Version
-- 2.5.2 - master
-- 2.6.0 - experimental
+- 2.6.0 - master (music key words system)
 
 ## Features
 
-- ratio
-- jokes
+- perfectly ratio discord member !
+- jokes...
 - astrology 
 - meteo
-- youtube music
-- soundboard
-- daily message
-- web dashboard
+- mid youtube music
+- bad daily message
+- try to get a web dashboard
 
 
 ## Authors
