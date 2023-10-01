@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #-------- IMPORTED MODULES --------
+from mimetypes import init
 from init import *
 from tokens import *
 
@@ -58,13 +59,13 @@ def gpt_ask(gpt_prompt, engine = "text-davinci-003",max_tokens=150, temperature=
 
 def get_anecdote():
     response = gpt_ask("Donne une anecdote réel dans le domaine du jeux-vidéo ou de la pop culture")
-    currentAnecdote = response
     return response
 
 #MESSAGE AUTOMATIQUE
 async def send_message_matin():
     channel = bot.get_channel(479958977472364555) #ID TRESORIE
     response = get_anecdote()
+    init.currentAnecdote = response
     await channel.send(response)
     print("Info : Anecdote envoyé !")
     

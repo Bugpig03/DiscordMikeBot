@@ -31,8 +31,11 @@ MESSAGE_TIME = time(10, 35)
 queueMusic = []
 currentTOP10 = []
 
-currentAnecdote = "L'anecdote du jour a été suprimmée désolé mon gars."
-currentMusic = {}
+mainTextChannel = 479958977472364555
+mainVoiceChannel = 426760269205602304
+
+currentAnecdote = "Aucune annecdote disponible sorry :("
+currentMusic = "test"
 currentMusicQueue = []
 
 #-------- PATH CONFIGURATION --------

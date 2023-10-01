@@ -8,6 +8,7 @@ Mike Bot is a Discord bot available on the Mike Brant server. It offers several 
 
 ## Version
 - 2.5.2 - master
+- 2.6.0 - experimental
 
 ## Features
 
