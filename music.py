@@ -21,11 +21,15 @@ async def add_music_to_queue(ctx, url):
     text_channel = bot.get_channel(mainTextChannel)
     
     if not is_valid_youtube_url(url):
+        print("c'est pas un URL")
         url = search_youtube_video_url(url)
         if url is None:
+            print("Aucun URL a été trouvé FIN")
             return
     yt = YouTube(url)
-    
+    if yt.length > 360:
+        print("Musique trop longue plus de 6 min")
+        return
     new_music = {
     "url" : str(url),
     "title" : str(yt.title),
