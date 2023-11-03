@@ -58,7 +58,7 @@ def gpt_ask(gpt_prompt, engine = "text-davinci-003",max_tokens=150, temperature=
     return response['choices'][0]['text']
 
 def get_anecdote():
-    response = gpt_ask("Donne une anecdote sympatique dans n'importe quel domaine")
+    response = gpt_ask("Donne une statistique intérrésante")
     return response
 
 #MESSAGE AUTOMATIQUE
