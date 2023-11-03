@@ -81,16 +81,15 @@ async def play_music():
     print("function play music : END") 
        
 async def check_if_music_in_queue():
-    if bot is None:
+    if bot is None: #wait until bot is set
         return
     
     voice_client = await get_voice_client(bot)
-    
-    if voice_client is None:
-        voice_channel = bot.get_channel(mainVoiceChannel)
-        voice_client = await voice_channel.connect()
-    
+     
     if currentMusicQueue is not None:
+        if voice_client is None:
+            voice_channel = bot.get_channel(mainVoiceChannel)
+            voice_client = await voice_channel.connect()
         if voice_client.is_playing():
             return
         else:

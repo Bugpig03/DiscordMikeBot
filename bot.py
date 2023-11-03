@@ -20,7 +20,7 @@ from music import *
 #-------- BOT COMMANDS --------
 @bot.command()
 async def aide(ctx):
-    await ctx.send("**Listes des commandes dispo (prefix *) :**\n- **join** (mike bot rejoint le salon) \n- **play [youtube url]** (Jouer un son depuis une vidéo youtube)\n- **next** (passe la chanson)\n- **queue** (permet de voir la playlist) \n- **clear** (éfface la playlist) \n- **remove [music index]** (Enlève une musique de la playlist)\n- **profile [@user tag]** (permet de voir le profil d'une personne) \n- **meteo [ville]** (permet de voir la méteo dans ta ville bg)\n- **blague** (petite blague 'souvent rasiste')\n- **astro [votre signe]** (super signe astrologique...)\n- **mike [question pour mike]** (marche plus déso je suis pas assez riche btw)")
+    await ctx.send("**Listes des commandes dispo (prefix *) :- **play [youtube url]** (Jouer un son depuis une vidéo youtube)\n- **next** (passe la musique)\n- **queue** (permet de voir la playlist) \n- **clear** (éfface la playlist) \n- **remove [music index]** (Enlève une musique de la playlist)\n- **profile [@user tag]** (permet de voir le profil d'une personne) \n- **meteo [ville]** (permet de voir la méteo dans ta ville bg)\n- **blague** (petite blague 'souvent rasiste')\n- **astro [votre signe]** (super signe astrologique...)\n- **mike [question pour mike]** (marche plus déso je suis pas assez riche btw)")
 
 @bot.command()
 async def tell(ctx, *, message):

@@ -36,7 +36,7 @@ mainTextChannel = 479958977472364555
 mainVoiceChannel = 426760269205602304
 
 currentAnecdote = "Aucune annecdote disponible sorry :("
-currentMusic = "test"
+currentMusic = ""
 currentMusicQueue = []
 
 #-------- PATH CONFIGURATION --------
